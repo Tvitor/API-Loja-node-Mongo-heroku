@@ -13,7 +13,7 @@ module.exports = {
                 if(await adminMethods.findAdmin({email}))
                     return res.status(400).send({error: "E-mail já existente"});
             }else{
-                return res.status(400).send({error: "E-mail não recebido"});
+                return res.status(400).send({error: "Parametro não informado"});
             }
 
             try { 
@@ -37,6 +37,30 @@ module.exports = {
 
     },
 
+    //User login 
+    async adminLogin(req, res) {
+        const {email, senha} = req.body;
+        const password = true;
+        
+        if(!email || !senha)
+            return res.status(400).send({error: 'parametros não informados'}); 
+
+        let admin = await adminMethods.findAdmin({email}, password);
+
+        if(!admin)
+            return res.status(400).send({error: 'Usuário e/ou senha inválidos'});
+        if(!await bcrypt.compare(senha, admin.senha))
+            return res.status(401).send({error: 'Usuário e/ou senha inválidos'});
+
+            adminMethods.updatelastLogin(admin, now);
+            
+        let data = await this.adminJson(admin, now, null);
+
+        tokenMethods.updateToken(data);
+
+        res.status(200).send(data);
+
+    },
     //Admin Json 
     adminJson (dataAdmin, now, search) {
         let user;
