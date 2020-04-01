@@ -7,4 +7,4 @@ router.use(authMiddleWare);
 
 //adicionar e etc
 
-module.exports = app => app.use('/admin', router);
+module.exports = app => app.use('/store', router);
