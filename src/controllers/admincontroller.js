@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const admin = require("../models/admin");
+const admin = require("../models/admin/admin");
 
 router.post('/register',  (req, res)=> {
     admin.adminRegister(req, res)

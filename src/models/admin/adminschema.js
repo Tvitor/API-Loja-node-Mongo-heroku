@@ -1,4 +1,4 @@
-const mongoose = require("../../config/mongo");
+const mongoose = require("../../../config/mongo");
 const bcrypt = require('bcryptjs');
 
 const Schema = mongoose.Schema;
@@ -21,14 +21,14 @@ const AdminSchema = new Schema({
         required:true,
         select: false
     },
-    data_criacao: {
+    dataCriacao: {
         type: Date
         
     },
-    ultimo_login:{
+    ultimoLogin:{
         type: Date
     },
-    data_atualizacao:{
+    dataAtualizacao:{
         type:Date
     },
     token: {

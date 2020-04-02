@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const key = require("../../config/auth.json");
+const key = require("../../../config/auth.json");
 const Admin = require("./adminschema");
 
 module.exports = {

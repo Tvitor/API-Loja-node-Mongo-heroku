@@ -1,10 +1,13 @@
 const express = require("express");
 const authMiddleWare = require("../middleware/acessverify");
-const userMethods = require("../models/products.js");
+const products = require("../models/products/products");
 const router = express.Router();
 
 router.use(authMiddleWare);
 
-//adicionar e etc
+router.post("/insert/product", (req, res) => {
+    products.insertProduct(req, res);
+    
+});
 
 module.exports = app => app.use('/store', router);

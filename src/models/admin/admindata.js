@@ -12,6 +12,14 @@ module.exports = {
             return result;
         }
     },
+    //Find Admin by id
+    findAdminById(id){
+        
+        return Admin.findOne({_id:id});
+    
+},
+
+    
 
     async createAdmin(newAdmin) {
         const admin = await Admin.create(newAdmin);
@@ -20,9 +28,9 @@ module.exports = {
 
     //update login
     updatelastLogin(data, now) {
-        Admin.findOneAndUpdate({ultimo_login:data.ultimo_login},{ultimo_login:now}).then( () =>{
+        Admin.findOneAndUpdate({ultimoLogin:data.ultimoLogin},{ultimoLogin:now}).then( () =>{
                  Admin.findOne({_id:data._id}).then((result) => {
-                     assert(result.ultimo_login , now);
+                     assert(result.ultimoLogin , now);
                      return;
                  })
                  
