@@ -1,18 +1,12 @@
 const mongoose = require("../../../config/mongo");
-const Schema = mongoose.Schema;
+let Schema = mongoose.Schema;
 
-const Productchema = new Schema({
+let Productchema = new Schema({
 
     nome: {
         type: String,
         require:true,
         uppercase:true
-    },
-
-    sku: {
-        type: String,
-        unique: true,
-        required:true
     },
     preco: {
         type: Number,
@@ -20,10 +14,12 @@ const Productchema = new Schema({
     },
     categoria:{
         type:String,
-        required:true
+        required:true,
+        uppercase:true
     },
     dataCriacao: {
-        type: Date
+        type: Date,
+        required:true
     },
     idResponsavel:{
         type:String,
@@ -33,7 +29,17 @@ const Productchema = new Schema({
         type:Date,
         required:true
     }
-})
+});
+
+Productchema.method('transform', function() {
+    let obj = this.toObject();
+ 
+    //Rename fields
+    obj.id = obj._id;
+    delete obj._id;
+ 
+    return obj;
+});
 
 const Product = mongoose.model('Product', Productchema);
 module.exports = Product;

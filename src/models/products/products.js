@@ -1,5 +1,6 @@
 const moment = require("moment");
 const productData = require("./productsdata");
+const productSchema = require("./productsschema");
 const now = new Date();
 
 
@@ -11,13 +12,12 @@ module.exports = {
         let newProduct = [];
 
         req.body.map((element, index)=>{
-            let {sku, nome, preco, categoria} = element;
+            let {nome, preco, categoria} = element;
             preco = preco.replace(/,/g, ".");
-    
-            if(sku && nome && preco && categoria){
+           
+            if( nome && preco && categoria){
             
                 newProduct[index] = {
-                    ...{"sku":sku},
                     ...{"nome":nome},
                     ...{"preco":preco},
                     ...{"categoria":categoria},
@@ -31,14 +31,35 @@ module.exports = {
 
         try { 
             
-            await productData.productCreate(newProduct) 
+          let data =  await productData.productCreate(newProduct) 
             
             res.status(200).send(data);
             
         }catch(error){
-            return res.status(400).send({error:"SKU já existe"})
+            return res.status(400).send({error:"produto já cadastrado"})
         }
 
     },
+
+    //Product Update
+    async updateProduct(req, res) {
+        let userId = req.userId;
+        let product = req.body;
+        let editedProduct = [];
+        let data
+
+        product.map((element, index)=>{
+            editedProduct[index] = {
+                ...element,
+                ...{"dataCriacao":now},
+                ...{"dataAtualizacao":now},
+                ...{"idResponsavel":userId}
+            };
+        })
+
+        data = await productData.productUpdate(editedProduct) 
+           
+        res.status(200).send(data);
+    }
 
 }
