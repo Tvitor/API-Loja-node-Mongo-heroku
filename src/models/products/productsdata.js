@@ -1,6 +1,6 @@
 const assert = require("assert");
 const Product = require("./productsschema");
-
+const mongoose = require ("mongoose");
 module.exports = {
   async  productCreate(newProduct){
         let result = [];
@@ -32,6 +32,31 @@ module.exports = {
         })
 
         return  "Alteração concluída";  
+    },
+
+    async productDelete(productId, res) {
+        let values = Object.values(productId);
+
+        Product.deleteMany(function(err, result){
+            if(err) {
+                return  res.status(404).send([err, "produtos não encontrados"]);
+            }else{
+                return res.status(404).send({"itens_removidos":result.deletedCount});
+            }
+        }).where('_id').in(values);
+
+    },
+    
+    async listProducts(page, limit) {
+        page = parseInt(page);
+        limit = parseInt(limit);
+
+        return Product.find({}).skip(page).limit(limit);
+    },
+
+    async findProducts(findProducts) {
+        let list = Object.values(findProducts);
+        return Product.find().where('_id').in(list);
     }
 }
 

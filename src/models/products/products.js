@@ -1,6 +1,5 @@
 const moment = require("moment");
 const productData = require("./productsdata");
-const productSchema = require("./productsschema");
 const now = new Date();
 
 
@@ -46,7 +45,7 @@ module.exports = {
         let userId = req.userId;
         let product = req.body;
         let editedProduct = [];
-        let data
+        let data;
 
         product.map((element, index)=>{
             editedProduct[index] = {
@@ -59,6 +58,31 @@ module.exports = {
 
         data = await productData.productUpdate(editedProduct) 
            
+        res.status(200).send(data);
+    },
+    
+    async deleteProduct(req, res) {
+        let productId = req.body;
+        let data;
+
+        data = await productData.productDelete(productId, res);
+        //res.status(200).send([data, "exclusão concluída"]);
+    },
+
+    async listProduct(req, res) {
+        let page = req.query.page;
+        let limit = req.query.limit;
+        let data;
+        
+        data = await productData.listProducts(page, limit);
+        res.status(200).send(data);
+    },
+
+    async findProduct(req, res) {
+        productId = req.body;
+        let data;
+        
+        data = await productData.findProducts(productId);
         res.status(200).send(data);
     }
 

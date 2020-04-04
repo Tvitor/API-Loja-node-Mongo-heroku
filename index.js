@@ -11,6 +11,6 @@ app.use(bodyParser.json());
 
 require('./src/controllers/admincontroller')(app);
 require('./src/controllers/storecontroller')(app);
-//  require('./src/controllers/commoncontroller')(app);
+require('./src/controllers/commoncontroller')(app);
 
 app.listen(PORT, () =>{console.log(`Our app is running on port ${ PORT }`);});
