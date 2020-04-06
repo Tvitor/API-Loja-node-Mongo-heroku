@@ -32,7 +32,7 @@ module.exports = {
             
           let data =  await productData.productCreate(newProduct) 
             
-            res.status(200).send(data);
+            res.status(201).send(data);
             
         }catch(error){
             return res.status(400).send({error:"produto já cadastrado"})
@@ -46,8 +46,9 @@ module.exports = {
         let product = req.body;
         let editedProduct = [];
         let data;
-
+        
         product.map((element, index)=>{
+            console.log(element)
             editedProduct[index] = {
                 ...element,
                 ...{"dataCriacao":now},
@@ -58,7 +59,7 @@ module.exports = {
 
         data = await productData.productUpdate(editedProduct) 
            
-        res.status(200).send(data);
+        res.status(201).send(data);
     },
     
     async deleteProduct(req, res) {
@@ -66,7 +67,7 @@ module.exports = {
         let data;
 
         data = await productData.productDelete(productId, res);
-        //res.status(200).send([data, "exclusão concluída"]);
+        res.status(201).send([data, "exclusão concluída"]);
     },
 
     async listProduct(req, res) {

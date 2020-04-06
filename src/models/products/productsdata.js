@@ -16,7 +16,7 @@ module.exports = {
         let keyColumn;
         let valueColumn;
         let item = {};
-
+        console.log(product)
         product.map((element)=>{
             for(let i = 0; i < Object.keys(element).length; i++){
                 key = Object.values(Object.keys(element));
